@@ -1,0 +1,49 @@
+svg {
+  background-color: #1E1E1E;
+}
+
+form {
+  text-align: center;
+}
+
+label {
+  display: inline-block;
+  color: white;
+  font-size: 80%;
+  margin-right: 2.5rem;
+}
+
+.labelContainer {
+  display: flex;
+}
+
+#pointInput, #lineInput, input[type=text] {
+  display: inherit;
+  background-color: transparent;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-family: "Work Sans", sans-serif;
+  font-size: 1.0rem;
+  font-weight: bold;
+  height: 50%;
+  line-height: 4rem;
+  outline: none;
+  padding: 0 1rem;
+}
+
+#invertorBox {
+    margin-left: 10%;
+}
+
+.slider-header {
+  display: flex;
+  justify-content: space-between;
+  margin-block-start: none;
+}
+
+.sliders-root {
+  padding-top: .7%;
+  display: flex;
+  justify-content: space-between;
+}

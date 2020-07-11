@@ -1,0 +1,22 @@
+#animationConstantHeader {
+  margin-left: 3%;
+  display: inline-flexbox;
+}
+
+#formContainer {
+  display: inline-flexbox;
+  text-align: center;
+}
+
+#huePickerLabel {
+  margin-right: .1%;
+  float: left;
+  position: relative;
+}
+
+.huePickerContainer {
+  float: left;
+  margin-left: 1%;
+  margin-right: 1%;
+  position: relative;
+}
