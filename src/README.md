@@ -13,13 +13,13 @@ Please feel free to give feedback or suggest enhancements to this project.
 :warning:Due to capturing issues anomalies were created during the process.:warning:
 </p>
 
-![](https://github.com/xTriixrx/animation.js/blob/master/animationjs.gif)
+![](https://github.com/xTriixrx/animation.js/blob/master/src/animationjs.gif)
 
 <p align="center">
 This is how the page should look after proper installation is complete.
 </p>
 
-![](https://github.com/xTriixrx/animation.js/blob/master/animation_engine_start_page.png)
+![](https://github.com/xTriixrx/animation.js/blob/master/src/animation_engine_start_page.png)
 
 ## Installation
 
