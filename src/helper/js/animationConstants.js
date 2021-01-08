@@ -1,7 +1,7 @@
 /**
 * Author: Vincent Nigro
 * Version: 0.0.1
-* Last Updated: 5/7/20
+* Last Updated: 1/8/21
 *
 * This file contains all constant values that are used within the AnimationEngine
 * and does not require any dependancies. This file is used throughout the
@@ -37,6 +37,8 @@ export const CIRCULARRADIUS = "circularRadius";
 export const ROTATESTAR = "rotateStar";
 export const STARPOINT = "starPoint";
 export const MOVESPEED = "moveSpeedX";
+export const STARBORDER = "starBorder";
+export const CIRCLEBORDER = "circleBorder";
 
 // Definitions for each GraphicsSlider step prop value
 export const sinCosWaveHeightStep = .5;
@@ -53,6 +55,7 @@ export const circularRadiusStep = .25;
 export const moveSpeedStep = .25;
 export const rotateStarStep = .5;
 export const starPointStep = 1;
+export const borderStep = .1;
 
 // Define the set of all page types
 export const PAGE_TYPES = [
@@ -101,8 +104,10 @@ export const defaultCircularRadius = 50;
 export const defaultMoveSpeed = 1;
 export const defaultShapeCount = 1;
 export const defaultRanColor = false;
+export const defaultFillShape = false;
 export const defaultRotateStar = 60;
 export const defaultStarPoints = 5;
+export const defaultBorder = .3;
 
 // Definitions for all min and max values for GraphicsSliders
 export const xStartPointMin = -22300;
@@ -131,6 +136,28 @@ export const rotateStarMin = -1080;
 export const rotateStarMax = 1080;
 export const starPointsMin = 2;
 export const starPointsMax = 25;
+export const starBorderMin = .2;
+export const starBorderMax = 3;
+export const circleBorderMin = .1;
+export const circleBorderMax = 5;
+
+// Mark values for starBorder GraphicsSlider
+export const starBorderMarks = [
+  { value: starBorderMin, },
+  { value: .75, },
+  { value: 1.25, },
+  { value: 2.50, },
+  { value: starBorderMax, },
+];
+
+// Mark values for circleBorder GraphicsSlider
+export const circleBorderMarks = [
+  { value: circleBorderMin, },
+  { value: 1.25, },
+  { value: 2.75, },
+  { value: 3.25, },
+  { value: circleBorderMax, },
+];
 
 // Mark values for circularRadius GraphicsSlider
 export const moveSpeedMarks = [

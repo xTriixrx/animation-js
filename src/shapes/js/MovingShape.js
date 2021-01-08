@@ -6,7 +6,7 @@ import * as amConsts from '../../helper/js/animationConstants.js';
 /**
 * Author: Vincent Nigro
 * Version: 0.0.1
-* Last Updated: 5/7/20
+* Last Updated: 1/8/21
 *
 * This component generates the JSX data for a MovingShape which can be either a
 * Star or Circle component. Each of these components have their own respective
@@ -37,11 +37,14 @@ class MovingShape extends PureComponent
       points: this.props.points,
       startX: this.props.startX,
       startY: this.props.startY,
+      fillShape: this.props.fillShape,
       fillColor: this.props.fillColor,
       graphType: this.props.graphType,
       shapeType: this.props.shapeType,
       moveSpeedX: this.props.moveSpeedX,
       moveSpeedY: this.props.moveSpeedY,
+      starBorderWidth: this.props.starBorderWidth,
+      circleBorderWidth: this.props.circleBorderWidth,
     };
   }
 
@@ -52,6 +55,7 @@ class MovingShape extends PureComponent
   render = () =>
   {
     var html = "";
+
     if (this.state.graphType === amConsts.CIRCLE)
     {
       html = (
@@ -59,7 +63,9 @@ class MovingShape extends PureComponent
           <Circle time={this.state.time} startTime={this.state.startTime}
             width={this.state.width} height={this.state.height}
             startX={this.state.startX} startY={this.state.startY}
-            fillColor={this.state.fillColor} radius={this.state.radius} />
+            fillColor={this.state.fillColor} fillCircle={this.state.fillShape}
+            circleBorderWidth={this.state.circleBorderWidth}
+            radius={this.state.radius} />
         </>
       );
     }
@@ -71,7 +77,9 @@ class MovingShape extends PureComponent
             width={this.state.width} height={this.state.height}
             startX={this.state.startX} startY={this.state.startY}
             fillColor={this.state.fillColor} radius={this.state.radius}
-            rotate={this.state.rotate} points={this.state.points} />
+            rotate={this.state.rotate} fillStar={this.state.fillShape}
+            starBorderWidth={this.state.starBorderWidth}
+            points={this.state.points} />
         </>
       );
     }
@@ -124,6 +132,18 @@ class MovingShape extends PureComponent
     else if (nextProps.points !== prevState.points)
     {
       return { points: nextProps.points };
+    }
+    else if (nextProps.fillShape !== prevState.fillShape)
+    {
+      return { fillShape: nextProps.fillShape };
+    }
+    else if (nextProps.starBorderWidth !== prevState.starBorderWidth)
+    {
+      return { starBorderWidth: nextProps.starBorderWidth };
+    }
+    else if (nextProps.circleBorderWidth !== prevState.circleBorderWidth)
+    {
+      return { circleBorderWidth: nextProps.circleBorderWidth };
     }
     else
     {
@@ -178,6 +198,18 @@ class MovingShape extends PureComponent
     else if (prevProps.points !== this.props.points)
     {
       this.setState({ points: this.props.points });
+    }
+    else if (prevProps.fillShape !== this.props.fillShape)
+    {
+      this.setState({ fillShape: this.props.fillShape });
+    }
+    else if (prevProps.starBorderWidth !== this.props.starBorderWidth)
+    {
+      this.setState({ starBorderWidth: this.props.starBorderWidth });
+    }
+    else if (prevProps.circleBorderWidth !== this.props.circleBorderWidth)
+    {
+      this.setState({ circleBorderWidth: this.props.circleBorderWidth });
     }
   }
 

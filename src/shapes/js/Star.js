@@ -4,7 +4,7 @@ import React, {PureComponent} from 'react';
 /**
 * Author: Vincent Nigro
 * Version: 0.0.1
-* Last Updated: 5/7/20
+* Last Updated: 1/8/21
 *
 * This component generates the point information for a Star and outputs the
 * <polygon> element with point information onto the SVG element.
@@ -29,8 +29,10 @@ class Star extends PureComponent
       radius: this.props.radius,
       rotate: this.props.rotate,
       points: this.props.points,
+      fillStar: this.props.fillStar,
       startTime: this.props.startTime,
       fillColor: this.props.fillColor,
+      starBorderWidth: this.props.starBorderWidth,
     };
   }
 
@@ -39,9 +41,20 @@ class Star extends PureComponent
   */
   render()
   {
+    var star = NaN;
     var starPoints = this.generateStarPoints();
-    var star = <polygon points={starPoints} fill="none"
-      stroke={this.state.fillColor} strokeWidth="2" />
+
+    if (this.state.fillStar)
+    {
+      star = <polygon points={starPoints} fill={this.state.fillColor}
+      stroke={this.state.fillColor} strokeWidth=".1" />
+    }
+    else
+    {
+      star = <polygon points={starPoints} fill="none"
+      stroke={this.state.fillColor} strokeWidth={this.state.starBorderWidth} />
+    }
+    
 
     return (
       <>
@@ -124,9 +137,13 @@ class Star extends PureComponent
     {
       return { points: nextProps.points };
     }
-    else
+    else if (nextProps.fillStar !== prevState.fillStar)
     {
-      return null;
+      return { fillStar: nextProps.fillStar };
+    }
+    else if (nextProps.starBorderWidth !== prevState.starBorderWidth)
+    {
+      return { starBorderWidth: nextProps.starBorderWidth };
     }
   }
 
@@ -178,8 +195,15 @@ class Star extends PureComponent
     {
       this.setState({ points: this.props.points });
     }
+    else if (prevProps.fillStar !== this.props.fillStar)
+    {
+      this.setState({ fillStar: this.props.fillStar });
+    }
+    else if (prevProps.starBorderWidth !== this.props.starBorderWidth)
+    {
+      this.setState({ starBorderWidth: this.props.starBorderWidth });
+    }
   }
-
 }
 
 export default Star;

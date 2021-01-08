@@ -4,14 +4,13 @@ import React, {PureComponent} from 'react';
 /**
 * Author: Vincent Nigro
 * Version: 0.0.1
-* Last Updated: 5/7/20
+* Last Updated: 1/8/21
 *
 * This component generates the point information for a Star and outputs the
 * <circle> element with point information onto the SVG element.
 */
 class Circle extends PureComponent
 {
-
   /**
   * Circle component constructor which initializes the state from the prop values
   * passed in during the initialization of the Circle component.
@@ -29,6 +28,8 @@ class Circle extends PureComponent
        radius: this.props.radius,
        startTime: this.props.startTime,
        fillColor: this.props.fillColor,
+       fillCircle: this.props.fillCircle,
+       circleBorderWidth: this.props.circleBorderWidth,
     };
   }
 
@@ -52,17 +53,34 @@ class Circle extends PureComponent
   */
   circleBuilder = () =>
   {
+    var circle = NaN;
 
-    var circle = (
-      <>
-        <circle cx={this.state.startX}
-          r={this.state.radius} fill="none"
-          stroke={this.state.fillColor}
-          strokeWidth="5"
-          cy={this.state.startY}>
-        </circle>
-      </>
-    );
+    if (this.state.fillCircle)
+    {
+      circle = (
+        <>
+          <circle cx={this.state.startX}
+            r={this.state.radius} fill={this.state.fillColor}
+            stroke={this.state.fillColor}
+            strokeWidth=".1"
+            cy={this.state.startY}>
+          </circle>
+        </>
+      );
+    }
+    else
+    {
+      circle = (
+        <>
+          <circle cx={this.state.startX}
+            r={this.state.radius} fill="none"
+            stroke={this.state.fillColor}
+            strokeWidth={this.state.circleBorderWidth}
+            cy={this.state.startY}>
+          </circle>
+        </>
+      );
+    }
 
     return circle;
   }
@@ -100,6 +118,18 @@ class Circle extends PureComponent
     else if (nextProps.startTime !== prevState.startTime)
     {
       return { startTime: nextProps.startTime };
+    }
+    else if (nextProps.fillColor !== prevState.fillColor)
+    {
+      return { fillColor: nextProps.fillColor };
+    }
+    else if (nextProps.fillCircle !== prevState.fillCircle)
+    {
+      return { fillCircle: nextProps.fillCircle };
+    }
+    else if (nextProps.circleBorderWidth !== prevState.circleBorderWidth)
+    {
+      return { circleBorderWidth: nextProps.circleBorderWidth };
     }
     else
     {
@@ -142,6 +172,18 @@ class Circle extends PureComponent
     else if (prevProps.startTime !== this.props.startTime)
     {
       this.setState({ startTime: this.props.startTime });
+    }
+    else if (prevProps.fillColor !== this.props.fillColor)
+    {
+      this.setState({ fillColor: this.props.fillColor });
+    }
+    else if (prevProps.fillCircle !== this.props.fillCircle)
+    {
+      this.setState({ fillCircle: this.props.fillCircle });
+    }
+    else if (prevProps.circleBorderWidth !== this.props.circleBorderWidth)
+    {
+      this.setState({ circleBorderWidth: this.props.circleBorderWidth });
     }
   }
 }

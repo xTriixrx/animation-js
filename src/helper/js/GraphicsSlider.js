@@ -7,7 +7,7 @@ import { withStyles } from '@material-ui/core/styles';
 /**
 * Author: Vincent Nigro
 * Version: 0.0.1
-* Last Updated: 5/7/20
+* Last Updated: 1/8/21
 *
 * GraphicsSlider is a custom slider component based off of the material-ui Slider
 * component. It uses the material-ui component as its base and passes custom props
@@ -121,6 +121,14 @@ class GraphicsSlider extends PureComponent
     {
       return amConsts.starPointsMarks;
     }
+    else if (type === amConsts.STARBORDER)
+    {
+      return amConsts.starBorderMarks;
+    }
+    else if (type === amConsts.CIRCLEBORDER)
+    {
+      return amConsts.circleBorderMarks;
+    }
   }
 
   /**
@@ -188,6 +196,14 @@ class GraphicsSlider extends PureComponent
     {
       return amConsts.starPointsMin;
     }
+    else if (type === amConsts.STARBORDER)
+    {
+      return amConsts.starBorderMin;
+    }
+    else if (type === amConsts.CIRCLEBORDER)
+    {
+      return amConsts.circleBorderMin;
+    }
   }
 
   /**
@@ -254,6 +270,14 @@ class GraphicsSlider extends PureComponent
     else if (type === amConsts.STARPOINT)
     {
       return amConsts.starPointsMax;
+    }
+    else if (type === amConsts.STARBORDER)
+    {
+      return amConsts.starBorderMax;
+    }
+    else if (type === amConsts.CIRCLEBORDER)
+    {
+      return amConsts.circleBorderMax;
     }
   }
 
@@ -323,6 +347,14 @@ class GraphicsSlider extends PureComponent
     {
       return amConsts.defaultStarPoints;
     }
+    else if (type === amConsts.STARBORDER)
+    {
+      return amConsts.defaultBorder;
+    }
+    else if (type === amConsts.CIRCLEBORDER)
+    {
+      return amConsts.defaultBorder;
+    }
   }
 
   /**
@@ -389,6 +421,14 @@ class GraphicsSlider extends PureComponent
     else if (type === amConsts.STARPOINT)
     {
       return amConsts.starPointStep;
+    }
+    else if (type === amConsts.STARBORDER)
+    {
+      return amConsts.borderStep;
+    }
+    else if (type === amConsts.CIRCLEBORDER)
+    {
+      return amConsts.borderStep;
     }
   }
 

@@ -9,7 +9,7 @@ import GraphicsCheckbox from './helper/js/GraphicsCheckbox.js';
 /**
 * Author: Vincent Nigro
 * Version: 0.0.1
-* Last Updated: 5/7/20
+* Last Updated: 1/8/21
 *
 * The AnimationPg component is a page component which controls the rendering
 * of all graph types that fall under the Wave or MovingShape classification.
@@ -35,6 +35,9 @@ class AnimationPg extends PureComponent
       graphType: this.props.graphType,
       shapeType: this.props.shapeType,
       waveFreq: amConsts.defaultWaveFreq,
+      starBorder: amConsts.defaultBorder,
+      circleBorder: amConsts.defaultBorder,
+      fillShape: amConsts.defaultFillShape,
       lineTotal: amConsts.defaultLineTotal,
       inversion: amConsts.defaultInversion,
       randomColor: amConsts.defaultRanColor,
@@ -149,6 +152,8 @@ class AnimationPg extends PureComponent
               points={this.state.starPoints}
               moveSpeedX={this.state.moveSpeedX}
               moveSpeedY={this.state.moveSpeedY}
+              fillShape={this.state.fillShape}
+              starBorderWidth={this.state.starBorder}
               fillColor={'#'+ (Math.random() * 0xFFFFFF << 0).toString(16)}
               startX={Math.random() * this.state.width}
               startY={Math.random() * this.state.height} />
@@ -166,7 +171,9 @@ class AnimationPg extends PureComponent
               points={this.state.starPoints}
               moveSpeedX={this.state.moveSpeedX}
               moveSpeedY={this.state.moveSpeedY}
+              fillShape={this.state.fillShape}
               fillColor={this.state.fillColor}
+              starBorderWidth={this.state.starBorder}
               startX={Math.random() * this.state.width}
               startY={Math.random() * this.state.height} />
           </>
@@ -198,6 +205,8 @@ class AnimationPg extends PureComponent
               radius={this.state.circularRadius}
               moveSpeedX={this.state.moveSpeedX}
               moveSpeedY={this.state.moveSpeedY}
+              fillShape={this.state.fillShape}
+              circleBorderWidth={this.state.circleBorder}
               fillColor={'#'+ (Math.random() * 0xFFFFFF << 0).toString(16)}
               startX={Math.random() * this.state.width}
               startY={Math.random() * this.state.height} />
@@ -213,16 +222,19 @@ class AnimationPg extends PureComponent
               radius={this.state.circularRadius}
               moveSpeedX={this.state.moveSpeedX}
               moveSpeedY={this.state.moveSpeedY}
+              fillShape={this.state.fillShape}
               fillColor={this.state.fillColor}
+              circleBorderWidth={this.state.circleBorder}
               startX={Math.random() * this.state.width}
               startY={Math.random() * this.state.height} />
           </>
         );
       }
+      
       movingElements.push(movingElement);
     }
 
-     return movingElements;
+    return movingElements;
   }
 
   /**
@@ -232,11 +244,13 @@ class AnimationPg extends PureComponent
   */
   generateMovingShapeForms = () =>
   {
-    var starSlider, starPointInput = "";
+    var borderSlider = "";
+    var starRotSlider = "";
+    var starPointInput = "";
 
     if (this.state.graphType === amConsts.STAR)
     {
-        starSlider = (
+        starRotSlider = (
           <>
           <label className="slider-header">Rotate Star</label>
           <GraphicsSlider type={amConsts.ROTATESTAR}
@@ -253,6 +267,24 @@ class AnimationPg extends PureComponent
             </label>
           </>
         );
+
+        borderSlider = (
+          <>
+            <label className="slider-header">Star Border Width</label>
+          <GraphicsSlider type={amConsts.STARBORDER}
+            callback={this.starBorderHandler} />
+          </>
+        );
+    }
+    else if (this.state.graphType === amConsts.CIRCLE)
+    {
+      borderSlider = (
+        <>
+          <label className="slider-header">Circle Border Width</label>
+        <GraphicsSlider type={amConsts.CIRCLEBORDER}
+          callback={this.circleBorderHandler} />
+        </>
+      );
     }
     var forms = (
       <>
@@ -267,10 +299,15 @@ class AnimationPg extends PureComponent
           Random Color Checkbox:
           <GraphicsCheckbox callback={this.handleRandomColorCheckbox} />
         </label>
+        <label>
+          Fill Shapes Checkbox:
+          <GraphicsCheckbox callback={this.handleFillShapeCheckbox} />
+        </label>
       </form>
       <form>
         <div className="sliders-root">
-          {starSlider}
+          {starRotSlider}
+          {borderSlider}
           <label className="slider-header">Radius</label>
           <GraphicsSlider type={amConsts.CIRCULARRADIUS}
             callback={this.circularRadiusHandler} />
@@ -669,6 +706,21 @@ class AnimationPg extends PureComponent
   }
 
   /**
+   * Callback for updating state for starBorder attribute.
+   */
+  starBorderHandler = (event, value) =>
+  {
+    this.setState({ starBorder: value });
+  }
+
+  /**
+   * Callback for updating state for circleBorder attribute.
+   */
+  circleBorderHandler = (event, value) =>
+  {
+    this.setState({ circleBorder: value });
+  }
+  /**
   * Callback for updating state for inversion attribute.
   */
   handleInversionCheckbox = (event, value) =>
@@ -682,6 +734,14 @@ class AnimationPg extends PureComponent
   handleRandomColorCheckbox = (event, value) =>
   {
     this.setState({ randomColor: value });
+  }
+
+  /**
+   * Callback for updating state for filling in shapes attribute.
+   */
+  handleFillShapeCheckbox = (event, value) =>
+  {
+    this.setState({ fillShape: value });
   }
 
 } // end of AnimationPg
