@@ -101,10 +101,6 @@ class Circle extends PureComponent
     {
       return { startTime: nextProps.startTime };
     }
-    else if (nextProps.fillColor !== prevState.fillColor)
-    {
-      return { fillColor: nextProps.fillColor };
-    }
     else
     {
       return null;
@@ -147,12 +143,7 @@ class Circle extends PureComponent
     {
       this.setState({ startTime: this.props.startTime });
     }
-    else if (prevProps.fillColor !== this.props.fillColor)
-    {
-      this.setState({ fillColor: this.props.fillColor });
-    }
   }
-
 }
 
 export default Circle;
