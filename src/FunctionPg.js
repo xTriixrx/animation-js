@@ -34,7 +34,6 @@ class FunctionPg extends PureComponent
 
     this.axisWidth = this.state.width - this.margins.left - this.margins.right;
     this.axisHeight = this.state.height - this.margins.top - this.margins.bottom;
-
   }
 
   render = () =>
@@ -90,11 +89,6 @@ class FunctionPg extends PureComponent
         </div>
       </>
     );
-  }
-
-  generateGraph = () =>
-  {
-
   }
 
   generateFunctionForms = () =>
