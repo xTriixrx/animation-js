@@ -9,7 +9,7 @@ import GraphicsCheckbox from './helper/js/GraphicsCheckbox.js';
 /**
 * Author: Vincent Nigro
 * Version: 0.0.1
-* Last Updated: 1/8/21
+* Last Updated: 1/9/21
 *
 * The AnimationPg component is a page component which controls the rendering
 * of all graph types that fall under the Wave or MovingShape classification.
@@ -451,7 +451,9 @@ class AnimationPg extends PureComponent
     var sliders = '';
 
     if (this.state.graphType === amConsts.SINE ||
-      this.state.graphType === amConsts.COSINE)
+      this.state.graphType === amConsts.COSINE || 
+      this.state.graphType === amConsts.SECANT ||
+      this.state.graphType === amConsts.COSECANT)
     {
       sliders = (
         <>
@@ -465,7 +467,8 @@ class AnimationPg extends PureComponent
         </>
         );
     }
-    else if (this.state.graphType === amConsts.TANGENT)
+    else if (this.state.graphType === amConsts.TANGENT ||
+      this.state.graphType === amConsts.COTANGENT)
     {
       sliders = (
         <>

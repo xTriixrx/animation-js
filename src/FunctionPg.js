@@ -1,14 +1,24 @@
-import React, { PureComponent } from 'react';
-import { evaluate, derivative, sin, pi } from 'mathjs';
 import { scaleLinear } from 'd3-scale';
 import Line from './helper/js/line.js';
 import XYAxis from './helper/js/xy-axis.js';
-import * as fnConsts from './helper/js/functionConstants.js';
-import { line, curveMonotoneX, curveBasis, curveLinear } from 'd3-shape';
+import React, { PureComponent } from 'react';
+import { evaluate, derivative } from 'mathjs';
+import { line, curveBasis, curveLinear } from 'd3-shape';
 
+/**
+* Author: Vincent Nigro
+* Version: 0.0.1
+* Last Updated: 1/9/21
+*
+* The FunctionPg component is a page component which controls the rendering
+* of all functions types that can be graphed via the designated input box.
+*/
 class FunctionPg extends PureComponent
 {
-
+  /**
+  * FunctionPg constructor which contains the prop values passed in from the
+  * Animation component to help graph the currently defined function.
+  */
   constructor(props)
   {
     super(props);
@@ -116,7 +126,7 @@ class FunctionPg extends PureComponent
 
     try 
     {
-      var der = String(derivative(func, 'x'));
+      der = String(derivative(func, 'x'));
     }
     catch(err)
     {

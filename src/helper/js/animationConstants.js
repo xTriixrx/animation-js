@@ -1,7 +1,7 @@
 /**
 * Author: Vincent Nigro
 * Version: 0.0.1
-* Last Updated: 1/8/21
+* Last Updated: 1/9/21
 *
 * This file contains all constant values that are used within the AnimationEngine
 * and does not require any dependancies. This file is used throughout the
@@ -18,8 +18,11 @@ export const SHAPE = "Shape";
 export const STAR = "Star";
 export const SINE = "Sine";
 export const CIRCLE = "Circle";
+export const SECANT = "Secant";
 export const COSINE = "Cosine";
 export const TANGENT = "Tangent";
+export const COSECANT = "Cosecant";
+export const COTANGENT = "Cotangent";
 
 // Definitions for each type of GraphicsSlider
 export const SINCOSWAVEHEIGHT = "sinCosWaveHeight";
@@ -64,12 +67,12 @@ export const PAGE_TYPES = [
 
 // Defines the set of all animation types
 export const ANIMATION_TYPES = [
-  SINE, COSINE, TANGENT, STAR, CIRCLE,
+  SINE, SECANT, COSINE, COSECANT, TANGENT, COTANGENT, STAR, CIRCLE,
 ];
 
 // Defines the set of all wave types
 export const WAVE_TYPES = [
-  SINE, COSINE, TANGENT,
+  SINE, SECANT, COSINE, COSECANT, TANGENT, COTANGENT,
 ];
 
 // Defines the set of all shape types

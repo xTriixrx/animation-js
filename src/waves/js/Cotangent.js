@@ -1,10 +1,5 @@
-import '../css/Wave.css';
-import Sine from './Sine.js';
-import Secant from './Secant.js';
-import Cosine from './Cosine.js';
-import Tangent from './Tangent.js';
-import Cosecant from './Cosecant.js';
-import Cotangent from './Cotangent.js';
+import { cot } from 'mathjs';
+import '../css/Cotangent.css';
 import React, {PureComponent} from 'react';
 
 /**
@@ -12,32 +7,32 @@ import React, {PureComponent} from 'react';
 * Version: 0.0.1
 * Last Updated: 1/9/21
 *
-* The Wave component is created by the AnimationWavePg and controls the movement
-* of any of the given wave graph types.
+* The Cotangent component receives prop values from the Wave component and keeps
+* track of time through the Date.now() function. The Cotangent component graphs
+* the cot() function using <circle> HTML elements.
 */
-class Wave extends PureComponent
+class Cotangent extends PureComponent 
 {
   /**
-  * The wave constructor creates state attributes from the prop values that are
-  * passed in from the AnimationWavePg component.
+  * Receives prop values from the Wave component and keeps track of the time
+  * that has passed since the start of the function being graphed.
   */
   constructor(props)
   {
     super(props);
     this.state =
     {
-      lineTotal: 1,
+      time: Date.now(),
       width: this.props.width,
       height: this.props.height,
       waveFreq: this.props.waveFreq,
-      inversion: this.props.inversion,
       fillColor: this.props.fillColor,
-      graphType: this.props.graphType,
-      shapeType: this.props.shapeType,
+      inversion: this.props.inversion,
+      lineTotal: this.props.lineTotal,
       pointTotal: this.props.pointTotal,
-      startPoint: this.props.startPoint,
       waveLength: this.props.waveLength,
       waveHeight: this.props.waveHeight,
+      startPoint: this.props.startPoint,
       radiusFactor: this.props.radiusFactor,
       freqMultiplier: this.props.freqMultiplier,
       startHeightPoint: this.props.startHeightPoint,
@@ -45,40 +40,93 @@ class Wave extends PureComponent
       xRotationMultiplier: this.props.xRotationMultiplier,
       yRotationMultiplier: this.props.yRotationMultiplier,
     };
-
-    /*
-      A conversion array to change a string representation to its
-     respective wave component.
-     */
-    this.WAVE_CONVERSION = {
-      "Sine": Sine,
-      "Secant": Secant,
-      "Cosine": Cosine,
-      "Tangent": Tangent,
-      "Cosecant": Cosecant,
-      "Cotangent": Cotangent,
-    };
   }
 
   /**
-  * Renders the current wave component based on the state attributes graphType.
-  */
-  render = () =>
+   * Renders the current iteration of the cotangent graph.
+   */
+  render()
   {
-    var waveElement = this.generateWaveElement();
-    var html = (
+    var circles = this.circleBuilder(this.state.pointTotal);
+
+    return (
       <>
-        {waveElement}
+        {circles}
       </>
     );
+  }
 
-    return html;
+ /**
+  * Calculates the radius, cx, and cy for each circle in the cotangent graph for the
+  * current iteration. Once each <circle> HTML element has been created, the
+  * array of elements are returned to the render function.
+  */
+  circleBuilder = (dataPoints) =>
+  {
+    var circles = [];
+    var startPoint = 1 / (dataPoints / this.state.startPoint);
+
+    if (isNaN(startPoint))
+    {
+      startPoint = 1;
+    }
+
+    for (var i = 1; i <= dataPoints; i++)
+    {
+      var cx = (startPoint + (i * this.state.waveLength))
+        * this.state.width / dataPoints;
+
+      if (isNaN(cx))
+      {
+        cx = 1;
+      }
+
+      var r = this.state.width / dataPoints / this.state.radiusFactor;
+
+      if (isNaN(r))
+      {
+        r = 1;
+      }
+
+      var cy = (cot((startPoint + (i * this.state.freqMultiplier)) /
+        this.state.waveFreq + this.state.time / this.state.waveIntervalSpeed))
+        * this.state.height / this.state.waveHeight +
+        this.state.height / this.state.startHeightPoint;
+
+      if (isNaN(cy))
+      {
+          cy = 1;
+      }
+
+      var circle = NaN;
+      if (this.state.inversion)
+      {
+        circle = <circle key={i}
+          cx={cy + (this.state.xRotationMultiplier * (cx / 100))}
+          r={r} fill={this.state.fillColor}
+          cy={cx + (this.state.yRotationMultiplier * (cy / 100))}>
+        </circle>;
+      }
+      else
+      {
+        circle = <circle key={i}
+          cx={cx + (this.state.xRotationMultiplier * (cy / 100))}
+          r={r} fill={this.state.fillColor}
+          cy={cy + (this.state.yRotationMultiplier * (cx / 100))}>
+        </circle>;
+      }
+
+      circles.push(circle);
+
+    }
+
+    return circles;
   }
 
   /**
-  * Necessary for update: enables the component to update its internal
-  * state as the result of changes in props from the AnimationWavePg component.
-  */
+   * Necessary for update: enables the component to update its internal
+   * state as the result of changes in props from the Wave component.
+   */
   static getDerivedStateFromProps = (nextProps, prevState) =>
   {
     if (nextProps.width !== prevState.width)
@@ -156,11 +204,11 @@ class Wave extends PureComponent
   }
 
   /**
-  * Is called after any rendered HTML has finished loading. It receives
-  * two arguments, the props and state of the component before the current
-  * updating period began. This will check if the props have changed and the
-  * state must be updated.
-  */
+   * Is called after any rendered HTML has finished loading. It receives
+   * two arguments, the props and state of the component before the current
+   * updating period began. This will check if the props have changed and the
+   * state must be updated.
+   */
   componentDidUpdate(prevProps, prevState)
   {
     if (prevProps.width !== this.props.width)
@@ -189,7 +237,7 @@ class Wave extends PureComponent
     }
     else if (prevProps.fillColor !== this.props.fillColor)
     {
-      this.setState({ fillColor: this.state.fillColor });
+      this.setState({ fillColor: this.props.fillColor });
     }
     else if (prevProps.pointTotal !== this.props.pointTotal)
     {
@@ -233,26 +281,21 @@ class Wave extends PureComponent
     }
   }
 
-  /**
-  * Called during the render method to dynamically choose the type of wave graph
-  * to render and passes the necessary state values through the prop values.
+ /**
+  * Clears the interval when the graph type changes.
   */
-  generateWaveElement = () =>
+  componentWillUnmount = () =>
   {
-    const WaveType = this.WAVE_CONVERSION[this.state.graphType];
-
-    var waveElement = (
-      <WaveType width={this.state.width} height={this.state.height} fillColor={this.state.fillColor}
-        pointTotal={this.state.pointTotal} lineTotal={this.state.lineTotal}
-        startPoint={this.state.startPoint} startHeightPoint={this.state.startHeightPoint}
-        waveIntervalSpeed={this.state.waveIntervalSpeed} radiusFactor={this.state.radiusFactor}
-        waveLength={this.state.waveLength} waveHeight={this.state.waveHeight} waveFreq={this.state.waveFreq}
-        freqMultiplier={this.state.freqMultiplier} xRotationMultiplier={this.state.xRotationMultiplier}
-        yRotationMultiplier={this.state.yRotationMultiplier} inversion={this.state.inversion} />
-    );
-    return waveElement;
+    clearInterval(this.interval);
   }
 
-} // end of Wave
+ /**
+  * Continually updates the time state attribute as time moves.
+  */
+  componentDidMount = () =>
+  {
+    this.interval = setInterval(() => this.setState({ time: Date.now() }), 10);
+  }
+}
 
-export default Wave;
+export default Cotangent;
