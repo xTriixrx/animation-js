@@ -11,6 +11,8 @@ class Line extends PureComponent
     {
       num: this.props.num,
       data: this.props.data,
+      width: this.props.width,
+      height: this.props.height,
       xScale: this.props.xScale,
       yScale: this.props.yScale,
       fillColor: this.props.fillColor,
@@ -28,31 +30,32 @@ class Line extends PureComponent
       .append('path')
       .datum(0)
       .attr('id', 'line' + this.state.num)
-      .attr('stroke', this.state.fillColor)
       .attr('stroke-width', 1)
       .attr('fill', 'none')
       .attr('d', this.state.lineGenerator);
-
-    this.updateChart()
   }
 
-  componentDidUpdate = () =>
+  updateChart = () =>
   {
-    this.updateChart();
-  }
-
-  updateChart()
-  {
-
     const line = select('#line' + this.state.num);
 
     line
+      .attr('stroke', this.state.fillColor)
       .datum(this.state.data)
       .attr('d', this.state.lineGenerator);
 
   }
-  render() {
-    return <g className="line-group" ref={this.ref} />;
+
+  render = () => 
+  {
+    // This is a hack... no idea why this line is forcing the state to finally update for the color
+    // in the update chart call, remove this line and the line color stays yellow. I believe it has to
+    // do something with the this.ref instance not being updated properly...
+    this.setState({fillColor: 'black'});
+
+    this.updateChart();
+ 
+    return <g className="line-group" ref={this.ref}/>;
   }
 
   /**
@@ -77,17 +80,21 @@ class Line extends PureComponent
     {
       return { yScale: nextProps.yScale };
     }
+    else if (nextProps.width !== prevState.width)
+    {
+      return { width: nextProps.width };
+    }
+    else if (nextProps.height !== prevState.height)
+    {
+      return { height: nextProps.height };
+    }
     else if (nextProps.fillColor !== prevState.fillColor)
     {
-        return { fillColor: nextProps.fillColor };
+      return { fillColor: nextProps.fillColor };
     }
     else if (nextProps.lineGenerator !== prevState.lineGenerator)
     {
       return { lineGenerator: nextProps.lineGenerator };
-    }
-    else
-    {
-      return null;
     }
   }
 
@@ -114,6 +121,14 @@ class Line extends PureComponent
     else if (prevProps.yScale !== this.props.yScale)
     {
       this.setState({ yScale: this.props.yScale });
+    }
+    else if (prevProps.width !== this.props.width)
+    {
+      this.setState({ width: this.props.width });
+    }
+    else if (prevProps.height !== this.props.height)
+    {
+      this.setState({ height: this.props.height });
     }
     else if (prevProps.fillColor !== this.props.fillColor)
     {

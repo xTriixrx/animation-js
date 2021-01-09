@@ -74,7 +74,7 @@ class FunctionPg extends PureComponent
     var derivativeDataset = this.calculateTangentAtPointX(this.state.moving_x);
 
     var forms = this.generateFunctionForms();
-
+    
     return (
       <>
         {forms}
@@ -188,11 +188,6 @@ class FunctionPg extends PureComponent
     {
       return { fillColor: nextProps.fillColor };
     }
-    else
-    {
-      return null;
-    }
-    this.generateGraph();
   }
 
   /**
@@ -213,11 +208,9 @@ class FunctionPg extends PureComponent
     }
     else if (prevProps.fillColor !== this.props.fillColor)
     {
-        this.setState({ fillColor: this.props.fillColor});
+      this.setState({ fillColor: this.props.fillColor});
     }
-    this.generateGraph();
   }
-
 }
 
 export default FunctionPg;
