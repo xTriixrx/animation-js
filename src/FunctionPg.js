@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { derivative, sin, pi } from 'mathjs';
+import { evaluate, derivative, sin, pi } from 'mathjs';
 import { scaleLinear } from 'd3-scale';
 import Line from './helper/js/line.js';
 import XYAxis from './helper/js/xy-axis.js';
@@ -19,6 +19,7 @@ class FunctionPg extends PureComponent
     {
       moving_x: 0,
       moving_y: 0,
+      functionString: 'x^2',
       width: this.props.width,
       height: this.props.height,
       fillColor: this.props.fillColor,
@@ -34,19 +35,6 @@ class FunctionPg extends PureComponent
     this.axisWidth = this.state.width - this.margins.left - this.margins.right;
     this.axisHeight = this.state.height - this.margins.top - this.margins.bottom;
 
-  }
-
-  calculateY = (x, a, b, c) =>
-  {
-    // y = ax^c+b
-    var y = a * (x ** c) + b;
-    return y;
-  }
-
-  deriv = (x) =>
-  {
-    //var y = x ** 2 + 5;
-    return derivative('x ^ 2', 'x').evaluate({x: x});
   }
 
   render = () =>
@@ -69,7 +57,6 @@ class FunctionPg extends PureComponent
           .y(function(d) { return yScale(d.y); })
           .curve(curveLinear);
 
-    //var step = 1;
     var dataset = this.calculateFunctionPoints();
     var derivativeDataset = this.calculateTangentAtPointX(this.state.moving_x);
 
@@ -112,7 +99,62 @@ class FunctionPg extends PureComponent
 
   generateFunctionForms = () =>
   {
+    var form = (
+      <>
+        <label>
+          Polynomial Input:
+          <input type="text" name="polyInput"
+            value={this.state.functionString} onChange={this.handleChange} />
+        </label>
+        <label>
+          Derivative: {this.calculateDerivative(this.state.functionString)}
+        </label>
+      </>
+    );
 
+    return form;
+  }
+
+  // Returns empty string or string of derivative
+  calculateDerivative = (func) =>
+  {
+    var der = "";
+
+    try 
+    {
+      var der = String(derivative(func, 'x'));
+    }
+    catch(err)
+    {
+      der = "";
+    }
+    finally 
+    {
+      return der;
+    }
+  }
+
+  // Evaluates func string at x
+  evaluateFunction(func, x)
+  {
+    var val = "";
+
+    let scope = {
+      x: x,
+    }
+
+    try
+    {
+      val = evaluate(func, scope);
+    }
+    catch (err)
+    {
+      val = "";
+    }
+    finally 
+    {
+      return val;
+    }    
   }
 
   calculateFunctionPoints = () =>
@@ -123,7 +165,7 @@ class FunctionPg extends PureComponent
     {
         data.push({
             x: i,
-            y: this.calculateY(i, 1, 0, 2),
+            y: this.evaluateFunction(this.state.functionString, i),
         });
     }
     return data;
@@ -133,14 +175,16 @@ class FunctionPg extends PureComponent
   {
     var step = 1;
     var data = [];
-    var slope = this.deriv(xVal);
+    var slope = this.evaluateFunction(this.calculateDerivative(this.state.functionString), xVal);
     var yInt = this.calculateYIntercept(xVal, slope);
+    
+    var func  = slope + "x +" + String(yInt);
 
     for (var i = this.state.minXDomain; i < this.state.maxXDomain + 10; i += step)
     {
         data.push({
             x: i,
-            y: this.calculateY(i, slope, yInt, 1)
+            y: this.evaluateFunction(func, i)
         });
     }
     return data;
@@ -148,7 +192,7 @@ class FunctionPg extends PureComponent
 
   calculateYIntercept = (xVal, slope) =>
   {
-    var yInt = - (xVal * slope) + this.calculateY(xVal, 1, 0, 2);
+    var yInt = - (xVal * slope) + this.evaluateFunction(this.state.functionString, xVal);
 
     return yInt;
   }
@@ -161,7 +205,7 @@ class FunctionPg extends PureComponent
 
     this.setState({
         moving_x: this.round(xScale.invert(event.screenX), 3),
-        moving_y: this.round(this.calculateY(this.state.moving_x, 1, 0, 2), 3),
+        moving_y: this.round(this.evaluateFunction(this.state.functionString, this.state.moving_x), 3),//this.round(this.calculateY(this.state.moving_x, -1, 10, 2), 3),
     });
   }
 
@@ -209,6 +253,14 @@ class FunctionPg extends PureComponent
     else if (prevProps.fillColor !== this.props.fillColor)
     {
       this.setState({ fillColor: this.props.fillColor});
+    }
+  }
+
+  handleChange = (event) =>
+  {
+    if (event.target.name === "polyInput")
+    {
+      this.setState({ functionString: event.target.value });
     }
   }
 }
